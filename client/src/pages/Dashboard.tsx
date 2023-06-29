@@ -1,9 +1,10 @@
 import { ChangeEvent, useEffect, useState } from "react"
 import { useAppDispatch, useAppSelector } from "../redux/store"
 import { useNavigate } from "react-router-dom"
-import { reset } from "../redux/todoSlice"
-import { logoutUser } from "../redux/userSlice"
 import { createTodo, deleteTodo, getTodos } from "../redux/todoSlice"
+import TodoItem from "../components/TodoItem"
+import { toast } from "react-toastify"
+import { setCustomAlert } from "../redux/userSlice"
 
 type NewTodo = {
     text: string
@@ -13,7 +14,7 @@ const Dashboard = () => {
     const [newTodo, setNewTodo] = useState<NewTodo>({
         text: "",
     })
-    const { isLoading, isError, isSuccess, todos } = useAppSelector(
+    const { isLoading, isError, isSuccess, todos, alert } = useAppSelector(
         (store) => store.todos
     )
     const { user } = useAppSelector((store) => store.user)
@@ -35,11 +36,24 @@ const Dashboard = () => {
     const handleSubmit = (e: ChangeEvent<HTMLFormElement>) => {
         e.preventDefault()
         if (!text) {
-            alert("Text field cannot be empty!")
+            dispatch(setCustomAlert("Text field cannot be empty!"))
             return
         }
         dispatch(createTodo(newTodo))
+        setNewTodo({
+            text: "",
+        })
     }
+
+    useEffect(() => {
+        if (alert.show && alert.msg) {
+            if (alert.type === "error") {
+                toast.error(alert.msg)
+            } else if (alert.type === "success") {
+                toast.success(alert.msg)
+            }
+        }
+    }, [alert])
 
     useEffect(() => {
         if (isError) {
@@ -50,12 +64,7 @@ const Dashboard = () => {
             navigate("/login")
         }
 
-        // @ts-ignore
         dispatch(getTodos())
-
-        return () => {
-            // dispatch(reset())
-        }
     }, [user, isError])
 
     if (isLoading) {
@@ -63,38 +72,39 @@ const Dashboard = () => {
     }
 
     return (
-        <div>
-            <h1>dashboard</h1>
-            <button onClick={() => dispatch(logoutUser())}>logout</button>
-            <h2>Add new goal</h2>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    name="text"
-                    id="text"
-                    value={text}
-                    placeholder="Add new goal..."
-                    onChange={handleChange}
-                />
-                <button type="submit">add</button>
-            </form>
-            <div className="todos">
+        <section className="dashboard">
+            <section className="form">
+                <form onSubmit={handleSubmit}>
+                    <h2>Add new goal</h2>
+
+                    <div className="form-group">
+                        <input
+                            type="text"
+                            name="text"
+                            id="text"
+                            value={text}
+                            placeholder="Add new goal..."
+                            onChange={handleChange}
+                        />
+                    </div>
+
+                    <button type="submit" className="submit-btn">
+                        Add
+                    </button>
+                </form>
+            </section>
+
+            <section className="todos">
                 {todos.length > 0 ? (
                     todos.map((todo) => {
-                        return (
-                            <article key={todo._id}>
-                                <p>{todo.text}</p>
-                                <button onClick={() => dispatch(deleteTodo(todo._id))}>
-                                    X
-                                </button>
-                            </article>
-                        )
+                        console.log(todo)
+                        return <TodoItem todo={todo} />
                     })
                 ) : (
                     <h2>No todos found </h2>
                 )}
-            </div>
-        </div>
+            </section>
+        </section>
     )
 }
 

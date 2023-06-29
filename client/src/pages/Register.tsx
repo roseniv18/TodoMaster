@@ -1,7 +1,8 @@
 import { useState, ChangeEvent, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../redux/store"
-import { registerUser, reset } from "../redux/userSlice"
+import { registerUser, reset, setCustomAlert } from "../redux/userSlice"
+import { toast } from "react-toastify"
 
 type FormDataType = {
     username: string
@@ -17,7 +18,10 @@ const Register = () => {
         password: "",
         confirmPassword: "",
     })
-    const { user, isSuccess, isLoading, isError } = useAppSelector((store) => store.user)
+    const [emptyFields, setEmptyFields] = useState<string[]>([""])
+    const { user, isSuccess, isLoading, isError, alert } = useAppSelector(
+        (store) => store.user
+    )
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
 
@@ -25,6 +29,7 @@ const Register = () => {
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
+        setEmptyFields((prev) => prev.filter((p) => p !== name))
         setFormData((prev) => {
             return {
                 ...prev,
@@ -34,12 +39,31 @@ const Register = () => {
     }
 
     const handleSubmit = (e: ChangeEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        if (!username) {
+            setEmptyFields((prev) => [...prev, "username"])
+        }
+
+        if (!email) {
+            setEmptyFields((prev) => [...prev, "email"])
+        }
+
+        if (!password) {
+            setEmptyFields((prev) => [...prev, "password"])
+        }
+
+        if (!confirmPassword) {
+            setEmptyFields((prev) => [...prev, "confirmPassword"])
+        }
+
         if (!username || !email || !password || !confirmPassword) {
-            alert("Please fill out all fields!")
+            dispatch(
+                setCustomAlert({ type: "error", msg: "Please fill out all fields!" })
+            )
             return
         }
         if (password !== confirmPassword) {
-            alert("Passwords do not match!")
+            dispatch(setCustomAlert({ type: "error", msg: "Passwords do not match!" }))
             return
         }
 
@@ -51,8 +75,18 @@ const Register = () => {
 
         dispatch(registerUser(userData))
 
-        e.preventDefault()
+        setEmptyFields([""])
     }
+
+    useEffect(() => {
+        if (alert.show && alert.msg) {
+            if (alert.type === "error") {
+                toast.error(alert.msg)
+            } else if (alert.type === "success") {
+                toast.success(alert.msg)
+            }
+        }
+    }, [alert])
 
     useEffect(() => {
         if (isSuccess || user._id) {
@@ -69,43 +103,66 @@ const Register = () => {
     }
 
     return (
-        <div>
+        <section className="form">
+            <h2>Create an account</h2>
             <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    name="username"
-                    id="username"
-                    placeholder="Username..."
-                    value={username}
-                    onChange={handleChange}
-                />
-                <input
-                    type="text"
-                    name="email"
-                    id="email"
-                    placeholder="Email..."
-                    value={email}
-                    onChange={handleChange}
-                />
-                <input
-                    type="password"
-                    name="password"
-                    id="password"
-                    placeholder="Password..."
-                    value={password}
-                    onChange={handleChange}
-                />
-                <input
-                    type="password"
-                    name="confirmPassword"
-                    id="confirmPassword"
-                    placeholder="Confirm password..."
-                    value={confirmPassword}
-                    onChange={handleChange}
-                />
-                <button type="submit">Register</button>
+                <div className="form-group">
+                    {" "}
+                    <input
+                        type="text"
+                        name="username"
+                        id="username"
+                        placeholder="Username..."
+                        value={username}
+                        className={emptyFields.includes("username") ? "errorField" : ""}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="form-group">
+                    {" "}
+                    <input
+                        type="text"
+                        name="email"
+                        id="email"
+                        placeholder="Email..."
+                        value={email}
+                        className={emptyFields.includes("email") ? "errorField" : ""}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="form-group">
+                    <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        placeholder="Password..."
+                        value={password}
+                        className={emptyFields.includes("password") ? "errorField" : ""}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="form-group">
+                    <input
+                        type="password"
+                        name="confirmPassword"
+                        id="confirmPassword"
+                        placeholder="Confirm password..."
+                        value={confirmPassword}
+                        className={
+                            emptyFields.includes("confirmPassword") ? "errorField" : ""
+                        }
+                        onChange={handleChange}
+                    />
+                </div>
+
+                <button type="submit" className="submit-btn">
+                    Register
+                </button>
+                <button className="secondary-btn">
+                    <Link to="/login">Login</Link>
+                </button>
             </form>
-        </div>
+        </section>
     )
 }
 

@@ -1,6 +1,6 @@
 import axios from "axios"
 
-export const getTodosThunk = async (thunkAPI: any) => {
+export const getTodosThunk = async (_: void, thunkAPI: any) => {
     try {
         // @ts-ignore
         const token: string = thunkAPI.getState().user.user.token

@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { User } from "../types/User"
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 
 // Get user from local storage
 let user = {
@@ -70,10 +70,14 @@ export const loginUser = createAsyncThunk(
             let message: string = ""
             if (typeof error === "string") {
                 message = error
+                return thunkAPI.rejectWithValue(message)
+            } else if (error instanceof AxiosError) {
+                message = error.response?.data.message
+                return thunkAPI.rejectWithValue(message)
             } else if (error instanceof Error) {
                 message = error.message
+                return thunkAPI.rejectWithValue(message)
             }
-            return thunkAPI.rejectWithValue(message)
         }
     }
 )
@@ -106,6 +110,15 @@ const userSlice = createSlice({
                 show: false,
                 type: "",
                 msg: "",
+            }
+        },
+
+        setCustomAlert: (state, action) => {
+            const { type, msg } = action.payload
+            state.alert = {
+                show: true,
+                type,
+                msg,
             }
         },
     },
@@ -209,4 +222,4 @@ const userSlice = createSlice({
 })
 
 export default userSlice.reducer
-export const { reset } = userSlice.actions
+export const { reset, setCustomAlert } = userSlice.actions

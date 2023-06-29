@@ -1,0 +1,102 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 4em;
+}
+
+.header {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    justify-content: space-between;
+    padding: 20px 0;
+    border-bottom: 1.5px solid #ccc;
+    margin-bottom: 90px;
+    .nav-link {
+        text-decoration: none;
+        color: #000;
+    }
+
+    .logout-btn {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        border: none;
+        background-color: transparent;
+        font-size: 18px;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
+section.form {
+    margin: 0 auto;
+    padding: 2em 3em;
+    background-color: rgb(243, 243, 243);
+    border-radius: 3px;
+    h2 {
+        margin: 0 0 18px 0;
+    }
+    width: 30vw;
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em;
+        .form-group {
+            height: 30px;
+            input {
+                height: 100%;
+                width: 100%;
+                padding: 0.25em 0.5em;
+                border: none;
+                border-radius: 3px;
+            }
+            input.errorField {
+                border: 1.5px solid rgb(200, 43, 43);
+            }
+        }
+        .submit-btn {
+            border: none;
+            border-radius: 3px;
+        }
+
+        .submit-btn,
+        .secondary-btn {
+            cursor: pointer;
+            width: 100%;
+            height: 30px;
+            text-transform: uppercase;
+        }
+
+        .secondary-btn {
+            background-color: transparent;
+            border: none;
+            text-decoration: underline;
+        }
+    }
+}
+
+section.dashboard {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    section.todos {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        align-items: first baseline;
+
+        article.todo {
+            border: 1.5px solid #ccc;
+            border-radius: 3px;
+            padding: 2em;
+            width: 270px;
+        }
+    }
+}
