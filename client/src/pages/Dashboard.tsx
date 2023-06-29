@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from "react"
 import { useAppDispatch, useAppSelector } from "../redux/store"
 import { useNavigate } from "react-router-dom"
-import { createTodo, deleteTodo, getTodos } from "../redux/todoSlice"
+import { createTodo, getTodos } from "../redux/todoSlice"
 import TodoItem from "../components/TodoItem"
 import { toast } from "react-toastify"
 import { setCustomAlert } from "../redux/userSlice"
@@ -97,7 +97,6 @@ const Dashboard = () => {
             <section className="todos">
                 {todos.length > 0 ? (
                     todos.map((todo) => {
-                        console.log(todo)
                         return <TodoItem todo={todo} />
                     })
                 ) : (

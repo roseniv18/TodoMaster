@@ -4,6 +4,7 @@ import axios from "axios"
 import { createTodoThunk } from "./todoThunks/createTodoThunk"
 import { getTodosThunk } from "./todoThunks/getTodosThunk"
 import { deleteTodoThunk } from "./todoThunks/deleteTodoThunk"
+import { updateTodoThunk } from "./todoThunks/updateTodoThunk"
 
 type TodoState = {
     todos: Todo[]
@@ -15,6 +16,8 @@ type TodoState = {
         type: string
         msg: string
     }
+    showModal: boolean
+    editingTodo: Todo
 }
 
 // CREATE TODO
@@ -23,9 +26,8 @@ export const createTodo = createAsyncThunk("todo/create", createTodoThunk)
 export const getTodos = createAsyncThunk("todo/getAll", getTodosThunk)
 // DELETE TODO
 export const deleteTodo = createAsyncThunk("todo/delete", deleteTodoThunk)
-
 // UPDATE TODO
-// export const updateTodo = createAsyncThunk("todo/update", async(_, thunkAPI))
+export const updateTodo = createAsyncThunk("todo/update", updateTodoThunk)
 
 const initialState: TodoState = {
     todos: [],
@@ -37,6 +39,15 @@ const initialState: TodoState = {
         type: "",
         msg: "",
     },
+    showModal: false,
+    editingTodo: {
+        _id: "",
+        user: "",
+        text: "",
+        createdAt: "",
+        updatedAt: "",
+        __v: 0,
+    },
 }
 
 const todoSlice = createSlice({
@@ -47,6 +58,18 @@ const todoSlice = createSlice({
             state.isLoading = false
             state.isError = false
             state.isSuccess = false
+            state.showModal = false
+        },
+        toggleModal: (state) => {
+            state.showModal = !state.showModal
+        },
+        setEditingTodo: (state, action) => {
+            const id = action.payload
+            state.todos.forEach((todo) => {
+                if (todo._id === id) {
+                    state.editingTodo = todo
+                }
+            })
         },
     },
     extraReducers: (builder) => {
@@ -122,8 +145,38 @@ const todoSlice = createSlice({
                 }
             }
         })
+
+        // UPDATE TODO
+        builder.addCase(updateTodo.pending, (state) => {
+            state.isLoading = true
+        })
+        builder.addCase(updateTodo.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.todos.forEach((todo) => {
+                if (todo._id === action.payload._id) {
+                    todo.text = action.payload.text
+                }
+            })
+            state.alert = {
+                show: true,
+                type: "success",
+                msg: `Successfully updated!`,
+            }
+        })
+        builder.addCase(updateTodo.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            if (typeof action.payload === "string") {
+                state.alert = {
+                    show: true,
+                    type: "error",
+                    msg: `Error: ${action.payload}`,
+                }
+            }
+        })
     },
 })
 
 export default todoSlice.reducer
-export const { reset } = todoSlice.actions
+export const { reset, toggleModal, setEditingTodo } = todoSlice.actions
