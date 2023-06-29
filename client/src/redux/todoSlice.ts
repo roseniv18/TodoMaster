@@ -1,6 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { Todo } from "../types/Todo"
 import axios from "axios"
+import { createTodoThunk } from "./todoThunks/createTodoThunk"
+import { getTodosThunk } from "./todoThunks/getTodosThunk"
+import { deleteTodoThunk } from "./todoThunks/deleteTodoThunk"
 
 type TodoState = {
     todos: Todo[]
@@ -15,83 +18,11 @@ type TodoState = {
 }
 
 // CREATE TODO
-export const createTodo = createAsyncThunk(
-    "todo/create",
-    async (data: { text: string }, thunkAPI) => {
-        try {
-            // @ts-ignore
-            const token: string = thunkAPI.getState().user.user.token
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            }
-            const res = await axios.post(`http://localhost:5005/api/todos`, data, config)
-
-            return res.data
-        } catch (error) {
-            let message: string = ""
-            if (typeof error === "string") {
-                message = error
-            } else if (error instanceof Error) {
-                message = error.message
-            }
-            return thunkAPI.rejectWithValue(message)
-        }
-    }
-)
-
+export const createTodo = createAsyncThunk("todo/create", createTodoThunk)
 // GET ALL TODOS
-export const getTodos = createAsyncThunk("todo/getAll", async (_, thunkAPI) => {
-    try {
-        // @ts-ignore
-        const token: string = thunkAPI.getState().user.user.token
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        }
-        const res = await axios.get(`http://localhost:5005/api/todos`, config)
-        return res.data
-    } catch (error) {
-        let message: string = ""
-        if (typeof error === "string") {
-            message = error
-        } else if (error instanceof Error) {
-            message = error.message
-        }
-        return thunkAPI.rejectWithValue(message)
-    }
-})
-
+export const getTodos = createAsyncThunk("todo/getAll", getTodosThunk)
 // DELETE TODO
-export const deleteTodo = createAsyncThunk(
-    "todo/delete",
-    async (id: string, thunkAPI) => {
-        try {
-            // @ts-ignore
-            const token: string = thunkAPI.getState().user.user.token
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            }
-            const res = await axios.delete(
-                `http://localhost:5005/api/todos/${id}`,
-                config
-            )
-            return res.data
-        } catch (error) {
-            let message: string = ""
-            if (typeof error === "string") {
-                message = error
-            } else if (error instanceof Error) {
-                message = error.message
-            }
-            return thunkAPI.rejectWithValue(message)
-        }
-    }
-)
+export const deleteTodo = createAsyncThunk("todo/delete", deleteTodoThunk)
 
 // UPDATE TODO
 // export const updateTodo = createAsyncThunk("todo/update", async(_, thunkAPI))
@@ -111,7 +42,13 @@ const initialState: TodoState = {
 const todoSlice = createSlice({
     name: "todos",
     initialState,
-    reducers: {},
+    reducers: {
+        reset: (state) => {
+            state.isLoading = false
+            state.isError = false
+            state.isSuccess = false
+        },
+    },
     extraReducers: (builder) => {
         // CREATE TODO
         builder.addCase(createTodo.pending, (state) => {
@@ -189,4 +126,4 @@ const todoSlice = createSlice({
 })
 
 export default todoSlice.reducer
-export const {} = todoSlice.actions
+export const { reset } = todoSlice.actions

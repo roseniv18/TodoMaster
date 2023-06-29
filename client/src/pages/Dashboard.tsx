@@ -1,7 +1,8 @@
 import { ChangeEvent, useEffect, useState } from "react"
 import { useAppDispatch, useAppSelector } from "../redux/store"
 import { useNavigate } from "react-router-dom"
-import { logoutUser, reset } from "../redux/userSlice"
+import { reset } from "../redux/todoSlice"
+import { logoutUser } from "../redux/userSlice"
 import { createTodo, deleteTodo, getTodos } from "../redux/todoSlice"
 
 type NewTodo = {
@@ -49,10 +50,11 @@ const Dashboard = () => {
             navigate("/login")
         }
 
+        // @ts-ignore
         dispatch(getTodos())
 
         return () => {
-            dispatch(reset())
+            // dispatch(reset())
         }
     }, [user, isError])
 
