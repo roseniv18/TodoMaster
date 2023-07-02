@@ -31,6 +31,15 @@ const EditTodo = () => {
             )
             return
         }
+
+        dispatch(
+            updateTodo({
+                id: editedTodo._id,
+                data: {
+                    text: editedTodo.text,
+                },
+            })
+        )
     }
 
     return (
@@ -50,20 +59,7 @@ const EditTodo = () => {
                         />
                     </div>
 
-                    <button
-                        type="submit"
-                        className="submit-btn"
-                        onClick={() =>
-                            dispatch(
-                                updateTodo({
-                                    id: editedTodo._id,
-                                    data: {
-                                        text: editedTodo.text,
-                                    },
-                                })
-                            )
-                        }
-                    >
+                    <button type="submit" className="submit-btn">
                         Edit
                     </button>
                     <button onClick={() => dispatch(toggleModal())}>

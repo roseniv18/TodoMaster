@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { Todo } from "../types/Todo"
-import axios from "axios"
 import { createTodoThunk } from "./todoThunks/createTodoThunk"
 import { getTodosThunk } from "./todoThunks/getTodosThunk"
 import { deleteTodoThunk } from "./todoThunks/deleteTodoThunk"
@@ -163,6 +162,8 @@ const todoSlice = createSlice({
                 type: "success",
                 msg: `Successfully updated!`,
             }
+            // Refresh the editing todo
+            state.editingTodo = action.payload
         })
         builder.addCase(updateTodo.rejected, (state, action) => {
             state.isLoading = false
