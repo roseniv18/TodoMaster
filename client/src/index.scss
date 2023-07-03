@@ -1,9 +1,61 @@
+@use "./colors.scss" as *;
+@use "./misc.scss" as *;
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@200;300;400;600&display=swap");
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: "Noto Sans", sans-serif;
 }
 
 body {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: $gray-100;
+    color: $gray-1000;
+}
+
+h1 {
+    font-size: $font-xxl;
+}
+
+h2 {
+    font-size: $font-xl;
+}
+
+h3 {
+    font-size: $font-l;
+}
+
+p,
+span {
+    font-size: $font-s;
+}
+
+.btn {
+    height: 33px;
+    padding: 0 1em;
+    font-size: $font-s;
+    text-transform: uppercase;
+    max-width: 120px;
+    cursor: pointer;
+    border: none;
+    border-radius: $radius;
+    margin: 0 auto;
+}
+
+.primary-btn {
+    background-color: $green-600;
+    color: $gray-0;
+    &:hover {
+        background-color: $green-700;
+    }
+}
+
+.tertiary-btn {
+    background-color: transparent;
+    color: $green-400;
+    text-decoration: underline;
+    &:hover {
+        color: $green-600;
+    }
 }

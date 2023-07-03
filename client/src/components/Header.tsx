@@ -10,7 +10,7 @@ const Header = () => {
     return (
         <nav className="header">
             <Link to="/" className="nav-link">
-                <h2>ToDoMaster</h2>
+                <h3>ToDoMaster</h3>
             </Link>
             {user._id ? (
                 <button onClick={() => dispatch(logoutUser())} className="logout-btn">

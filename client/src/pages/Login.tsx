@@ -86,7 +86,7 @@ const Login = () => {
 
     return (
         <section className="form">
-            <h2>Login to your account</h2>
+            <h3>Login to your account</h3>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <input
@@ -111,12 +111,12 @@ const Login = () => {
                     />
                 </div>
 
-                <button type="submit" className="submit-btn">
+                <button type="submit" className="btn primary-btn">
                     login
                 </button>
-                <button className="secondary-btn">
-                    <Link to="/register">Create an account</Link>
-                </button>
+                <Link to="/register">
+                    <button className="btn tertiary-btn">Create an account</button>
+                </Link>
             </form>
         </section>
     )

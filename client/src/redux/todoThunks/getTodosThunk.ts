@@ -9,8 +9,12 @@ export const getTodosThunk = async (_: void, thunkAPI: any) => {
                 Authorization: `Bearer ${token}`,
             },
         }
-        const res = await axios.get(`http://localhost:5005/api/todos`, config)
-        return res.data
+        if (thunkAPI.getState().user.user) {
+            const res = await axios.get(`http://localhost:5005/api/todos`, config)
+            return res.data
+        } else {
+            return thunkAPI.rejectWithValue("Not logged in!")
+        }
     } catch (error) {
         let message: string = ""
         if (typeof error === "string") {

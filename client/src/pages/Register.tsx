@@ -104,7 +104,7 @@ const Register = () => {
 
     return (
         <section className="form">
-            <h2>Create an account</h2>
+            <h3>Create an account</h3>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     {" "}
@@ -155,12 +155,12 @@ const Register = () => {
                     />
                 </div>
 
-                <button type="submit" className="submit-btn">
+                <button type="submit" className="btn primary-btn">
                     Register
                 </button>
-                <button className="secondary-btn">
-                    <Link to="/login">Login</Link>
-                </button>
+                <Link to="/login">
+                    <button className="btn tertiary-btn">Login</button>
+                </Link>
             </form>
         </section>
     )

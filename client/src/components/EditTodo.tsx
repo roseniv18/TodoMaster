@@ -46,7 +46,7 @@ const EditTodo = () => {
         <div className="overlay">
             <section className="form">
                 <form onSubmit={handleSubmit}>
-                    <h2>Edit goal</h2>
+                    <h3>Edit goal</h3>
 
                     <div className="form-group">
                         <input
@@ -59,7 +59,7 @@ const EditTodo = () => {
                         />
                     </div>
 
-                    <button type="submit" className="submit-btn">
+                    <button type="submit" className="btn primary-btn">
                         Edit
                     </button>
                     <button onClick={() => dispatch(toggleModal())}>

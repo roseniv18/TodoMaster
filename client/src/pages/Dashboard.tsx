@@ -67,15 +67,11 @@ const Dashboard = () => {
         dispatch(getTodos())
     }, [user, isError])
 
-    if (isLoading) {
-        return <h2>Loading...</h2>
-    }
-
     return (
         <section className="dashboard">
             <section className="form">
                 <form onSubmit={handleSubmit}>
-                    <h2>Add new goal</h2>
+                    <h3>Add new goal</h3>
 
                     <div className="form-group">
                         <input
@@ -88,19 +84,25 @@ const Dashboard = () => {
                         />
                     </div>
 
-                    <button type="submit" className="submit-btn">
+                    <button
+                        type="submit"
+                        className="btn primary-btn"
+                        disabled={isLoading}
+                    >
                         Add
                     </button>
                 </form>
             </section>
 
             <section className="todos">
-                {todos.length > 0 ? (
+                {isLoading ? (
+                    <h3>Loading...</h3>
+                ) : todos.length > 0 ? (
                     todos.map((todo) => {
                         return <TodoItem todo={todo} />
                     })
                 ) : (
-                    <h2>No todos found </h2>
+                    <h3>No todos found </h3>
                 )}
             </section>
         </section>
