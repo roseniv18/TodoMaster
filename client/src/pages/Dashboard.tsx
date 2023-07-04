@@ -5,6 +5,7 @@ import { createTodo, getTodos } from "../redux/todoSlice"
 import TodoItem from "../components/TodoItem"
 import { toast } from "react-toastify"
 import { setCustomAlert } from "../redux/userSlice"
+import Spinner from "../components/Spinner"
 
 type NewTodo = {
     text: string
@@ -96,7 +97,7 @@ const Dashboard = () => {
 
             <section className="todos">
                 {isLoading ? (
-                    <h3>Loading...</h3>
+                    <Spinner />
                 ) : todos.length > 0 ? (
                     todos.map((todo) => {
                         return <TodoItem todo={todo} />

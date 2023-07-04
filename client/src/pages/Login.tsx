@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../redux/store"
 import { loginUser, reset, setCustomAlert } from "../redux/userSlice"
 import { toast } from "react-toastify"
+import Spinner from "../components/Spinner"
 
 type FormDataType = {
     email: string
@@ -81,7 +82,7 @@ const Login = () => {
     }, [isSuccess, user])
 
     if (isLoading) {
-        return <h1>Loading...</h1>
+        return <Spinner />
     }
 
     return (
