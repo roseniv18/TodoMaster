@@ -18,7 +18,7 @@ function App() {
                     <Route path="/register" element={<Register />} />
                 </Routes>
             </Router>
-            <ToastContainer />
+            <ToastContainer autoClose={3000} />
         </main>
     )
 }

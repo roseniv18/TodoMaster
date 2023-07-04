@@ -19,7 +19,7 @@ const Register = () => {
         password: "",
         confirmPassword: "",
     })
-    const [emptyFields, setEmptyFields] = useState<string[]>([""])
+    const [errorFields, setErrorFields] = useState<string[]>([""])
     const { user, isSuccess, isLoading, isError, alert } = useAppSelector(
         (store) => store.user
     )
@@ -30,7 +30,7 @@ const Register = () => {
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
-        setEmptyFields((prev) => prev.filter((p) => p !== name))
+        setErrorFields((prev) => prev.filter((p) => p !== name))
         setFormData((prev) => {
             return {
                 ...prev,
@@ -42,19 +42,19 @@ const Register = () => {
     const handleSubmit = (e: ChangeEvent<HTMLFormElement>) => {
         e.preventDefault()
         if (!username) {
-            setEmptyFields((prev) => [...prev, "username"])
+            setErrorFields((prev) => [...prev, "username"])
         }
 
         if (!email) {
-            setEmptyFields((prev) => [...prev, "email"])
+            setErrorFields((prev) => [...prev, "email"])
         }
 
         if (!password) {
-            setEmptyFields((prev) => [...prev, "password"])
+            setErrorFields((prev) => [...prev, "password"])
         }
 
         if (!confirmPassword) {
-            setEmptyFields((prev) => [...prev, "confirmPassword"])
+            setErrorFields((prev) => [...prev, "confirmPassword"])
         }
 
         if (!username || !email || !password || !confirmPassword) {
@@ -76,7 +76,7 @@ const Register = () => {
 
         dispatch(registerUser(userData))
 
-        setEmptyFields([""])
+        setErrorFields([""])
     }
 
     useEffect(() => {
@@ -115,7 +115,7 @@ const Register = () => {
                         id="username"
                         placeholder="Username..."
                         value={username}
-                        className={emptyFields.includes("username") ? "errorField" : ""}
+                        className={errorFields.includes("username") ? "errorField" : ""}
                         onChange={handleChange}
                     />
                 </div>
@@ -127,7 +127,7 @@ const Register = () => {
                         id="email"
                         placeholder="Email..."
                         value={email}
-                        className={emptyFields.includes("email") ? "errorField" : ""}
+                        className={errorFields.includes("email") ? "errorField" : ""}
                         onChange={handleChange}
                     />
                 </div>
@@ -138,7 +138,7 @@ const Register = () => {
                         id="password"
                         placeholder="Password..."
                         value={password}
-                        className={emptyFields.includes("password") ? "errorField" : ""}
+                        className={errorFields.includes("password") ? "errorField" : ""}
                         onChange={handleChange}
                     />
                 </div>
@@ -150,18 +150,20 @@ const Register = () => {
                         placeholder="Confirm password..."
                         value={confirmPassword}
                         className={
-                            emptyFields.includes("confirmPassword") ? "errorField" : ""
+                            errorFields.includes("confirmPassword") ? "errorField" : ""
                         }
                         onChange={handleChange}
                     />
                 </div>
 
-                <button type="submit" className="btn primary-btn">
-                    Register
-                </button>
-                <Link to="/login">
-                    <button className="btn tertiary-btn">Login</button>
-                </Link>
+                <div className="form-actions">
+                    <button type="submit" className="btn primary-btn">
+                        Register
+                    </button>
+                    <Link to="/login" className="btn tertiary-btn">
+                        Login
+                    </Link>
+                </div>
             </form>
         </section>
     )

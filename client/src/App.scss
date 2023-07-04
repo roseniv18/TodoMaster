@@ -44,16 +44,18 @@ section.form {
     color: #fefefe;
     border-radius: $radius;
     width: 42%;
-    h2 {
-        margin: 0 0 18px 0;
+    h3 {
+        margin: 0 0 30px 0;
+        text-align: center;
     }
     form {
         display: flex;
         flex-direction: column;
         gap: 1.5em;
         .form-group {
-            height: 33px;
+            height: 36px;
             input {
+                font-size: $font-s;
                 height: 100%;
                 width: 100%;
                 padding: 0.25em 0.5em;
@@ -63,6 +65,13 @@ section.form {
             input.errorField {
                 border: 1.5px solid rgb(200, 43, 43);
             }
+        }
+
+        .form-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
         }
     }
 }
@@ -80,24 +89,64 @@ section.dashboard {
         align-items: center;
 
         article.todo {
-            border: 1.5px solid #ccc;
+            background-color: $gray-0;
+            position: relative;
+            border: 2px solid $gray-400;
             border-radius: $radius;
             padding: 2em;
             width: 270px;
+
+            &:hover {
+                .todoActions {
+                    display: block !important;
+                }
+            }
+
+            .todoText {
+                font-size: $font-m;
+                font-weight: 600;
+            }
+
+            .todoActions {
+                display: none !important;
+                position: absolute;
+                top: 6px;
+                right: 3px;
+                display: flex;
+                flex-direction: row;
+                gap: 10px;
+                .btn {
+                    height: 26px;
+                    padding: 0 0.6em;
+                }
+            }
         }
     }
 }
 
 .overlay {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     position: absolute;
     top: 0;
     left: 0;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     width: 100%;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.5);
+    section.form {
+        position: relative;
+        .tertiary-btn {
+            position: absolute;
+            top: 6px;
+            right: 3px;
+            color: $red-600;
+            &:hover {
+                color: $red-800;
+            }
+        }
+    }
 }
 
 @media screen and (max-width: 900px) {

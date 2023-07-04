@@ -22,7 +22,10 @@ const EditTodo = () => {
 
     const handleSubmit = (e: ChangeEvent<HTMLFormElement>) => {
         e.preventDefault()
-        if (!editedTodo.text) {
+        if (text === editingTodo.text) {
+            return
+        }
+        if (!text) {
             dispatch(
                 setCustomAlert({
                     type: "error",
@@ -48,6 +51,13 @@ const EditTodo = () => {
                 <form onSubmit={handleSubmit}>
                     <h3>Edit goal</h3>
 
+                    <button
+                        onClick={() => dispatch(toggleModal())}
+                        className="btn tertiary-btn"
+                    >
+                        <AiOutlineClose size={24} />
+                    </button>
+
                     <div className="form-group">
                         <input
                             type="text"
@@ -61,9 +71,6 @@ const EditTodo = () => {
 
                     <button type="submit" className="btn primary-btn">
                         Edit
-                    </button>
-                    <button onClick={() => dispatch(toggleModal())}>
-                        <AiOutlineClose size={18} />
                     </button>
                 </form>
             </section>

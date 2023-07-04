@@ -32,7 +32,7 @@ span {
 }
 
 .btn {
-    height: 33px;
+    height: 36px;
     padding: 0 1em;
     font-size: $font-s;
     text-transform: uppercase;
@@ -44,10 +44,21 @@ span {
 }
 
 .primary-btn {
+    font-weight: 700;
     background-color: $green-600;
     color: $gray-0;
     &:hover {
         background-color: $green-700;
+    }
+}
+
+.secondary-btn {
+    background-color: $gray-0;
+    color: $green-600;
+    border: 2px solid $green-600;
+    &:hover {
+        background-color: $green-600;
+        color: $gray-0;
     }
 }
 
@@ -57,5 +68,13 @@ span {
     text-decoration: underline;
     &:hover {
         color: $green-600;
+    }
+}
+
+.close-btn {
+    background-color: $red-700;
+    color: $gray-0;
+    &:hover {
+        background-color: $red-800;
     }
 }

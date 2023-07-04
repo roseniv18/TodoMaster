@@ -112,12 +112,14 @@ const Login = () => {
                     />
                 </div>
 
-                <button type="submit" className="btn primary-btn">
-                    login
-                </button>
-                <Link to="/register">
-                    <button className="btn tertiary-btn">Create an account</button>
-                </Link>
+                <div className="form-actions">
+                    <button type="submit" className="btn primary-btn">
+                        login
+                    </button>
+                    <Link to="/register" className="btn tertiary-btn">
+                        Create an account
+                    </Link>
+                </div>
             </form>
         </section>
     )

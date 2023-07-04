@@ -6,6 +6,7 @@ import TodoItem from "../components/TodoItem"
 import { toast } from "react-toastify"
 import { setCustomAlert } from "../redux/userSlice"
 import Spinner from "../components/Spinner"
+import EditTodo from "../components/EditTodo"
 
 type NewTodo = {
     text: string
@@ -15,7 +16,7 @@ const Dashboard = () => {
     const [newTodo, setNewTodo] = useState<NewTodo>({
         text: "",
     })
-    const { isLoading, isError, isSuccess, todos, alert } = useAppSelector(
+    const { isLoading, isError, isSuccess, todos, alert, showModal } = useAppSelector(
         (store) => store.todos
     )
     const { user } = useAppSelector((store) => store.user)
@@ -47,7 +48,7 @@ const Dashboard = () => {
     }
 
     useEffect(() => {
-        if (alert.show && alert.msg) {
+        if (alert.show && alert.msg && user.token) {
             if (alert.type === "error") {
                 toast.error(alert.msg)
             } else if (alert.type === "success") {
@@ -70,6 +71,7 @@ const Dashboard = () => {
 
     return (
         <section className="dashboard">
+            {showModal ? <EditTodo /> : <></>}
             <section className="form">
                 <form onSubmit={handleSubmit}>
                     <h3>Add new goal</h3>
@@ -100,7 +102,7 @@ const Dashboard = () => {
                     <Spinner />
                 ) : todos.length > 0 ? (
                     todos.map((todo) => {
-                        return <TodoItem todo={todo} />
+                        return <TodoItem key={todo._id} todo={todo} />
                     })
                 ) : (
                     <h3>No todos found </h3>

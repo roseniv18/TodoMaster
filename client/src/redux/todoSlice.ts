@@ -79,7 +79,7 @@ const todoSlice = createSlice({
         builder.addCase(createTodo.fulfilled, (state, action) => {
             state.isLoading = false
             state.isSuccess = true
-            state.todos = [...state.todos, action.payload]
+            state.todos = [action.payload, ...state.todos]
             state.alert = {
                 show: true,
                 type: "success",
@@ -164,6 +164,8 @@ const todoSlice = createSlice({
             }
             // Refresh the editing todo
             state.editingTodo = action.payload
+            // Close the modal
+            state.showModal = false
         })
         builder.addCase(updateTodo.rejected, (state, action) => {
             state.isLoading = false
