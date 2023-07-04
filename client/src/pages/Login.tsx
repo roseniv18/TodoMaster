@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "../redux/store"
 import { loginUser, reset, setCustomAlert } from "../redux/userSlice"
 import { toast } from "react-toastify"
 import Spinner from "../components/Spinner"
+import FormRow from "../components/FormRow"
 
 type FormDataType = {
     email: string
@@ -15,7 +16,7 @@ const Login = () => {
         email: "",
         password: "",
     })
-    const [emptyFields, setEmptyFields] = useState<string[]>([""])
+    const [errorFields, setErrorFields] = useState<string[]>([""])
     const { isSuccess, isError, isLoading, user, alert } = useAppSelector(
         (store) => store.user
     )
@@ -26,7 +27,7 @@ const Login = () => {
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
-        setEmptyFields((prev) => prev.filter((p) => p !== name))
+        setErrorFields((prev) => prev.filter((p) => p !== name))
         setFormData((prev) => {
             return {
                 ...prev,
@@ -38,11 +39,11 @@ const Login = () => {
     const handleSubmit = (e: ChangeEvent<HTMLFormElement>) => {
         e.preventDefault()
         if (!email) {
-            setEmptyFields((prev) => [...prev, "email"])
+            setErrorFields((prev) => [...prev, "email"])
         }
 
         if (!password) {
-            setEmptyFields((prev) => [...prev, "password"])
+            setErrorFields((prev) => [...prev, "password"])
         }
 
         if (!email || !password) {
@@ -58,7 +59,7 @@ const Login = () => {
         }
 
         dispatch(loginUser(userData))
-        setEmptyFields([""])
+        setErrorFields([""])
     }
 
     useEffect(() => {
@@ -90,25 +91,23 @@ const Login = () => {
             <h3>Login to your account</h3>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <input
-                        type="text"
+                    <FormRow
+                        type="email"
                         name="email"
-                        id="email"
                         placeholder="Email..."
                         value={email}
-                        className={emptyFields.includes("email") ? "errorField" : ""}
-                        onChange={handleChange}
+                        handleChange={handleChange}
+                        errorFields={errorFields}
                     />
                 </div>
                 <div className="form-group">
-                    <input
+                    <FormRow
                         type="password"
                         name="password"
-                        id="password"
                         placeholder="Password..."
                         value={password}
-                        className={emptyFields.includes("password") ? "errorField" : ""}
-                        onChange={handleChange}
+                        handleChange={handleChange}
+                        errorFields={errorFields}
                     />
                 </div>
 

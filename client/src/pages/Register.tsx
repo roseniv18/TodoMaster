@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "../redux/store"
 import { registerUser, reset, setCustomAlert } from "../redux/userSlice"
 import { toast } from "react-toastify"
 import Spinner from "../components/Spinner"
+import FormRow from "../components/FormRow"
 
 type FormDataType = {
     username: string
@@ -20,9 +21,7 @@ const Register = () => {
         confirmPassword: "",
     })
     const [errorFields, setErrorFields] = useState<string[]>([""])
-    const { user, isSuccess, isLoading, isError, alert } = useAppSelector(
-        (store) => store.user
-    )
+    const { user, isSuccess, isLoading, alert } = useAppSelector((store) => store.user)
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
 
@@ -108,51 +107,43 @@ const Register = () => {
             <h3>Create an account</h3>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                    {" "}
-                    <input
+                    <FormRow
                         type="text"
                         name="username"
-                        id="username"
-                        placeholder="Username..."
+                        placeholder="Username"
                         value={username}
-                        className={errorFields.includes("username") ? "errorField" : ""}
-                        onChange={handleChange}
+                        handleChange={handleChange}
+                        errorFields={errorFields}
                     />
                 </div>
                 <div className="form-group">
-                    {" "}
-                    <input
-                        type="text"
+                    <FormRow
+                        type="email"
                         name="email"
-                        id="email"
-                        placeholder="Email..."
+                        placeholder="Email"
                         value={email}
-                        className={errorFields.includes("email") ? "errorField" : ""}
-                        onChange={handleChange}
+                        handleChange={handleChange}
+                        errorFields={errorFields}
                     />
                 </div>
                 <div className="form-group">
-                    <input
+                    <FormRow
                         type="password"
                         name="password"
-                        id="password"
                         placeholder="Password..."
                         value={password}
-                        className={errorFields.includes("password") ? "errorField" : ""}
-                        onChange={handleChange}
+                        handleChange={handleChange}
+                        errorFields={errorFields}
                     />
                 </div>
                 <div className="form-group">
-                    <input
+                    <FormRow
                         type="password"
                         name="confirmPassword"
-                        id="confirmPassword"
                         placeholder="Confirm password..."
                         value={confirmPassword}
-                        className={
-                            errorFields.includes("confirmPassword") ? "errorField" : ""
-                        }
-                        onChange={handleChange}
+                        handleChange={handleChange}
+                        errorFields={errorFields}
                     />
                 </div>
 
