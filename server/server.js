@@ -5,7 +5,6 @@ const cors = require("cors")
 const PORT = process.env.PORT
 const todoRoutes = require("./routes/todoRoutes")
 const userRoutes = require("./routes/userRoutes")
-const colors = require("colors")
 const errorHandler = require("./middleware/errorHandler")
 const connectDB = require("./config/connectDB")
 
