@@ -1,4 +1,4 @@
-## Stack
+# Stack
 
 -   MongoDB and Mongoose
 -   Express
@@ -7,9 +7,7 @@
 -   SCSS
 -   Vite
 
-## Usage on local machine
-
-### Prerequisites
+# Usage on local machine
 
 1. Download the zip file or git clone to your machine.
 2. Run npm install in server and client folders
