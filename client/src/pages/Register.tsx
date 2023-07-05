@@ -5,6 +5,7 @@ import { registerUser, reset, setCustomAlert } from "../redux/userSlice"
 import { toast } from "react-toastify"
 import Spinner from "../components/Spinner"
 import FormRow from "../components/FormRow"
+import { inputValidator } from "../helpers/inputValidator"
 
 type FormDataType = {
     username: string
@@ -40,29 +41,17 @@ const Register = () => {
 
     const handleSubmit = (e: ChangeEvent<HTMLFormElement>) => {
         e.preventDefault()
-        if (!username) {
-            setErrorFields((prev) => [...prev, "username"])
-        }
-
-        if (!email) {
-            setErrorFields((prev) => [...prev, "email"])
-        }
-
-        if (!password) {
-            setErrorFields((prev) => [...prev, "password"])
-        }
-
-        if (!confirmPassword) {
-            setErrorFields((prev) => [...prev, "confirmPassword"])
-        }
-
-        if (!username || !email || !password || !confirmPassword) {
+        const fieldsArr = inputValidator(formData)
+        if (fieldsArr.length > 0 && fieldsArr[0].trim() !== "") {
+            setErrorFields(inputValidator(formData))
             dispatch(
                 setCustomAlert({ type: "error", msg: "Please fill out all fields!" })
             )
             return
         }
+
         if (password !== confirmPassword) {
+            setErrorFields(["password", "confirmPassword"])
             dispatch(setCustomAlert({ type: "error", msg: "Passwords do not match!" }))
             return
         }

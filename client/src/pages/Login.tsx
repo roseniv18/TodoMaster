@@ -5,6 +5,7 @@ import { loginUser, reset, setCustomAlert } from "../redux/userSlice"
 import { toast } from "react-toastify"
 import Spinner from "../components/Spinner"
 import FormRow from "../components/FormRow"
+import { inputValidator } from "../helpers/inputValidator"
 
 type FormDataType = {
     email: string
@@ -38,15 +39,9 @@ const Login = () => {
 
     const handleSubmit = (e: ChangeEvent<HTMLFormElement>) => {
         e.preventDefault()
-        if (!email) {
-            setErrorFields((prev) => [...prev, "email"])
-        }
-
-        if (!password) {
-            setErrorFields((prev) => [...prev, "password"])
-        }
-
-        if (!email || !password) {
+        const fieldsArr = inputValidator(formData)
+        if (fieldsArr.length > 0 && fieldsArr[0].trim() !== "") {
+            setErrorFields(inputValidator(formData))
             dispatch(
                 setCustomAlert({ type: "error", msg: "Please fill out all fields!" })
             )

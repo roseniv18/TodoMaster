@@ -66,7 +66,10 @@ const Dashboard = () => {
             navigate("/login")
         }
 
-        dispatch(getTodos())
+        // Only attempt to fetch todos when logged in
+        if (user.token) {
+            dispatch(getTodos())
+        }
     }, [user, isError])
 
     return (

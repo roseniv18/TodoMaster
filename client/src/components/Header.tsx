@@ -9,7 +9,7 @@ const Header = () => {
 
     return (
         <nav className="header">
-            <Link to="/" className="nav-link">
+            <Link to="/" className="nav-title">
                 <h3>ToDoMaster</h3>
             </Link>
             {user._id ? (
