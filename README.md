@@ -24,7 +24,7 @@
     MONGO_URI=YOUR_MONGODB_CONNECTION_STRING
     JWT_SECRET=RANDOM_STRING
     ```
-4. In client folder change the baseURL for the axios instance (./client/helpers/axiosInstance.ts) to `http://localhost:YOUR_PORT_NUMBER/api`
+4. In client folder change the baseURL for the axios instance (_./client/helpers/axiosInstance.ts_) to `http://localhost:YOUR_PORT_NUMBER/api`
     ```
     cd client
     ```
