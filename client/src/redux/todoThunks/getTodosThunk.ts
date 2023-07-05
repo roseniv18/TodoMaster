@@ -1,4 +1,4 @@
-import axios from "axios"
+import axiosInstance from "../../helpers/axiosInstance"
 
 export const getTodosThunk = async (_: void, thunkAPI: any) => {
     try {
@@ -10,7 +10,7 @@ export const getTodosThunk = async (_: void, thunkAPI: any) => {
             },
         }
         if (thunkAPI.getState().user.user) {
-            const res = await axios.get(`http://localhost:5005/api/todos`, config)
+            const res = await axiosInstance.get(`/todos`, config)
             return res.data
         } else {
             return thunkAPI.rejectWithValue("Not logged in!")

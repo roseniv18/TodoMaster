@@ -8,6 +8,7 @@ export const store = configureStore({
         todos: todoSlice,
         user: userSlice,
     },
+    devTools: false,
 })
 
 export type RootState = ReturnType<typeof store.getState>

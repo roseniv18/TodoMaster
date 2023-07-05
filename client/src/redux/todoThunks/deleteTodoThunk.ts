@@ -1,4 +1,5 @@
 import axios from "axios"
+import axiosInstance from "../../helpers/axiosInstance"
 
 export const deleteTodoThunk = async (id: string, thunkAPI: any) => {
     try {
@@ -9,7 +10,7 @@ export const deleteTodoThunk = async (id: string, thunkAPI: any) => {
                 Authorization: `Bearer ${token}`,
             },
         }
-        const res = await axios.delete(`http://localhost:5005/api/todos/${id}`, config)
+        const res = await axiosInstance.delete(`/todos/${id}`, config)
         return res.data
     } catch (error) {
         let message: string = ""

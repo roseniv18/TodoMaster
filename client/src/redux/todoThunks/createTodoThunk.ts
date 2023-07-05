@@ -1,4 +1,4 @@
-import axios from "axios"
+import axiosInstance from "../../helpers/axiosInstance"
 
 export const createTodoThunk = async (data: { text: string }, thunkAPI: any) => {
     try {
@@ -9,7 +9,7 @@ export const createTodoThunk = async (data: { text: string }, thunkAPI: any) => 
                 Authorization: `Bearer ${token}`,
             },
         }
-        const res = await axios.post(`http://localhost:5005/api/todos`, data, config)
+        const res = await axiosInstance.post(`/todos`, data, config)
 
         return res.data
     } catch (error) {

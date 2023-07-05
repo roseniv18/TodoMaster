@@ -18,9 +18,7 @@ const Login = () => {
         password: "",
     })
     const [errorFields, setErrorFields] = useState<string[]>([""])
-    const { isSuccess, isError, isLoading, user, alert } = useAppSelector(
-        (store) => store.user
-    )
+    const { isSuccess, isLoading, user, alert } = useAppSelector((store) => store.user)
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
 

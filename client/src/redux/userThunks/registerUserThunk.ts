@@ -1,19 +1,14 @@
-import axios from "axios"
 import axiosInstance from "../../helpers/axiosInstance"
 
-export const updateTodoThunk = async (
-    { id, data }: { id: string; data: { text: string } },
+export const registerUserThunk = async (
+    userData: { username: string; email: string; password: string },
     thunkAPI: any
 ) => {
     try {
-        // @ts-ignore
-        const token: string = thunkAPI.getState().user.user.token
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
+        const res = await axiosInstance.post(`/users/register`, userData)
+        if (res.data) {
+            localStorage.setItem("user", JSON.stringify(res.data))
         }
-        const res = await axiosInstance.put(`/todos/${id}`, data, config)
 
         return res.data
     } catch (error) {

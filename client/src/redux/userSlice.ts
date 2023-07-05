@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { User } from "../types/User"
-import axios, { AxiosError } from "axios"
+import { registerUserThunk } from "./userThunks/registerUserThunk"
+import { loginUserThunk } from "./userThunks/loginUserThunk"
 
 // Get user from local storage
 let user = {
@@ -26,62 +27,11 @@ type UserState = {
     }
 }
 
-export const registerUser = createAsyncThunk(
-    "user/register",
-    async (userData: { username: string; email: string; password: string }, thunkAPI) => {
-        try {
-            const res = await axios.post(
-                `http://localhost:5005/api/users/register`,
-                userData
-            )
-
-            if (res.data) {
-                localStorage.setItem("user", JSON.stringify(res.data))
-            }
-
-            return res.data
-        } catch (error) {
-            let message: string = ""
-            if (typeof error === "string") {
-                message = error
-            } else if (error instanceof Error) {
-                message = error.message
-            }
-            return thunkAPI.rejectWithValue(message)
-        }
-    }
-)
-
-export const loginUser = createAsyncThunk(
-    "user/login",
-    async (userData: { email: string; password: string }, thunkAPI) => {
-        try {
-            const res = await axios.post(
-                `http://localhost:5005/api/users/login`,
-                userData
-            )
-
-            if (res.data) {
-                localStorage.setItem("user", JSON.stringify(res.data))
-            }
-
-            return res.data
-        } catch (error) {
-            let message: string = ""
-            if (typeof error === "string") {
-                message = error
-                return thunkAPI.rejectWithValue(message)
-            } else if (error instanceof AxiosError) {
-                message = error.response?.data.message
-                return thunkAPI.rejectWithValue(message)
-            } else if (error instanceof Error) {
-                message = error.message
-                return thunkAPI.rejectWithValue(message)
-            }
-        }
-    }
-)
-
+// REGISTER USER
+export const registerUser = createAsyncThunk("user/register", registerUserThunk)
+// LOGIN USER
+export const loginUser = createAsyncThunk("user/login", loginUserThunk)
+// LOGOUT USER
 export const logoutUser = createAsyncThunk("user/logout", async () => {
     localStorage.removeItem("user")
 })
@@ -194,7 +144,7 @@ const userSlice = createSlice({
                 msg: "",
             }
         })
-        builder.addCase(logoutUser.fulfilled, (state, action) => {
+        builder.addCase(logoutUser.fulfilled, (state) => {
             state.isLoading = false
             state.isSuccess = true
             state.user = {
@@ -209,7 +159,7 @@ const userSlice = createSlice({
                 msg: `Logged out`,
             }
         })
-        builder.addCase(logoutUser.rejected, (state, action) => {
+        builder.addCase(logoutUser.rejected, (state) => {
             state.isLoading = false
             state.isError = true
             state.alert = {

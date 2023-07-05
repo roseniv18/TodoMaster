@@ -16,7 +16,7 @@ const Dashboard = () => {
     const [newTodo, setNewTodo] = useState<NewTodo>({
         text: "",
     })
-    const { isLoading, isError, isSuccess, todos, alert, showModal } = useAppSelector(
+    const { isLoading, isError, todos, alert, showModal } = useAppSelector(
         (store) => store.todos
     )
     const { user } = useAppSelector((store) => store.user)
