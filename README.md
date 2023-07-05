@@ -25,8 +25,5 @@
     JWT_SECRET=RANDOM_STRING
     ```
 4. In client folder change the baseURL for the axios instance (_./client/helpers/axiosInstance.ts_) to `http://localhost:YOUR_PORT_NUMBER/api`
-    ```
-    cd client
-    ```
 5. Start up the server with `npm run dev` (uses nodemon)
 6. Start up the client with `npm run dev` and open in browser
