@@ -1,4 +1,3 @@
-import axios from "axios"
 import axiosInstance from "../../helpers/axiosInstance"
 
 export const deleteTodoThunk = async (id: string, thunkAPI: any) => {
