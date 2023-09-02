@@ -1,12 +1,11 @@
-const path = require("path")
-const express = require("express")
-const dotenv = require("dotenv").config()
+import express from "express"
+require("dotenv").config()
 const cors = require("cors")
 const PORT = process.env.PORT
-const todoRoutes = require("./routes/todoRoutes")
-const userRoutes = require("./routes/userRoutes")
-const errorHandler = require("./middleware/errorHandler")
-const connectDB = require("./config/connectDB")
+import todoRoutes from "./routes/todoRoutes"
+import userRoutes from "./routes/userRoutes"
+import errorHandler from "./middleware/errorHandler"
+import connectDB from "./config/connectDB"
 
 const app = express()
 

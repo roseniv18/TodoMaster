@@ -1,6 +1,6 @@
-const mongoose = require("mongoose")
+import mongoose from "mongoose"
 
-const todoSchema = mongoose.Schema(
+const todoSchema = new mongoose.Schema(
     {
         user: {
             type: mongoose.Schema.Types.ObjectId,
@@ -18,4 +18,5 @@ const todoSchema = mongoose.Schema(
 )
 
 const Todo = mongoose.model("Todo", todoSchema)
-module.exports = Todo
+
+export default Todo
